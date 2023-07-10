@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utility_plus/feature/weather/screens/weather.dart';
 
 void main() => runApp(const MyApp());
 
@@ -35,10 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'Index 0: Home',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: Weather',
-      style: optionStyle,
-    ),
+    Weather(),
     Text(
       'Index 2: Calculator',
       style: optionStyle,
@@ -61,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: const Color.fromARGB(255, 73, 6, 144),
       ),
-      body: Center(
+      body: SafeArea(
         child: _widgetOptions[_selectedIndex],
       ),
       drawer: Drawer(
