@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:utility_plus/feature/calculator/screens/calculator.dart';
+import 'package:utility_plus/feature/home/screens/home.dart';
 import 'package:utility_plus/feature/weather/screens/weather.dart';
 
 void main() => runApp(const MyApp());
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       home: MyHomePage(title: appTitle),
     );
@@ -28,19 +31,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 35, fontWeight: FontWeight.bold);
+
+  static const List<String> _appbarTitle = <String>[
+    'Home',
+    'Weather',
+    'Calculator',
+  ];
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+    Home(),
     Weather(),
-    Text(
-      'Index 2: Calculator',
-      style: optionStyle,
-    ),
+    Calculator(),
   ];
 
   void _onItemTapped(int index) {
@@ -54,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          _appbarTitle[_selectedIndex],
           style: const TextStyle(fontSize: 30),
         ),
         backgroundColor: const Color.fromARGB(255, 73, 6, 144),
