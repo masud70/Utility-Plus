@@ -10,19 +10,27 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
+  String searchText = "Chittagong";
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(6.0),
+        padding: const EdgeInsets.all(6.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomSearchBar(),
-            SizedBox(height: 16.0),
-            Temperature(),
-            Text('data'),
-            Text('data'),
+            CustomSearchBar(
+              onChangeText: (text) {
+                setState(() {
+                  searchText = text;
+                });
+              },
+            ),
+            const SizedBox(height: 16.0),
+            Temperature(searchText: searchText),
+            const Text('data'),
+            const Text('data'),
           ],
         ),
       ),
