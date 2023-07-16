@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:utility_plus/feature/weather/functions/temperatureConvert.dart';
 import 'package:utility_plus/feature/weather/functions/weatherApi.dart';
+import 'package:utility_plus/util/functions/util.dart';
 
 class Temperature extends StatefulWidget {
   final String searchText;
@@ -30,6 +31,8 @@ class _TemperatureState extends State<Temperature> {
                 now: "C")
             .get();
       });
+    } else {
+      Util().showToast("Invalid search location.", danger: true);
     }
   }
 
