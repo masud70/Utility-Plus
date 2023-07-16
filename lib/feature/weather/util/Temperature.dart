@@ -3,7 +3,8 @@ import 'package:utility_plus/feature/weather/functions/temperatureConvert.dart';
 import 'package:utility_plus/feature/weather/functions/weatherApi.dart';
 
 class Temperature extends StatefulWidget {
-  const Temperature({super.key});
+  final String searchText;
+  const Temperature({super.key, this.searchText = "chittagong"});
 
   @override
   State<Temperature> createState() => _TemperatureState();
@@ -16,6 +17,7 @@ class _TemperatureState extends State<Temperature> {
   String weatherConditionCode = '10d';
 
   Future<void> fetchData(String locationName) async {
+    if (locationName == "") locationName = "chittagong";
     final weatherData =
         await WeatherApi.fetchWeatherDataByLocationName(locationName);
 
@@ -34,7 +36,26 @@ class _TemperatureState extends State<Temperature> {
   @override
   void initState() {
     super.initState();
-    fetchData('Chittagong');
+    fetchData(widget.searchText);
+  }
+
+  @override
+  void didUpdateWidget(covariant Temperature oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.searchText != oldWidget.searchText) {
+      fetchData(widget.searchText);
+    }
+  }
+
+  void onUnitChanged(String newUnit) {
+    setState(() {
+      temperature = Converter(
+        temp: temperature,
+        pre: selectedOption,
+        now: newUnit,
+      ).get();
+      selectedOption = newUnit;
+    });
   }
 
   @override
@@ -44,7 +65,7 @@ class _TemperatureState extends State<Temperature> {
         minHeight: 250,
       ),
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: const Color.fromARGB(255, 226, 226, 226),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
@@ -60,7 +81,7 @@ class _TemperatureState extends State<Temperature> {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                        color: Colors.blueGrey,
+                        color: const Color.fromARGB(255, 170, 227, 255),
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: const Icon(
@@ -92,18 +113,8 @@ class _TemperatureState extends State<Temperature> {
                       ),
                       DropdownButton<String>(
                         value: selectedOption,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            // selectedOption = newValue!;
-                            setState(() {
-                              temperature = Converter(
-                                      temp: temperature,
-                                      pre: selectedOption,
-                                      now: newValue!)
-                                  .get();
-                            });
-                            selectedOption = newValue!;
-                          });
+                        onChanged: (newValue) {
+                          onUnitChanged(newValue!);
                         },
                         items: options.map((String option) {
                           return DropdownMenuItem<String>(
@@ -125,7 +136,8 @@ class _TemperatureState extends State<Temperature> {
             ),
             Image.network(
               'http://openweathermap.org/img/wn/$weatherConditionCode.png',
-              width: 70,
+              width: 100,
+              height: 100,
             ),
             Text(
               "$temperature$selectedOption",
