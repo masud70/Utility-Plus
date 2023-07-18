@@ -4,6 +4,7 @@ import 'package:utility_plus/feature/calculator/screens/calculator.dart';
 import 'package:utility_plus/feature/home/screens/home.dart';
 import 'package:utility_plus/feature/weather/functions/weather_data.dart';
 import 'package:utility_plus/feature/weather/screens/weather.dart';
+import 'package:utility_plus/util/widgets/drawer_item.dart';
 
 void main() => runApp(const MyApp());
 
@@ -38,15 +39,15 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   static const List<String> _appbarTitle = <String>[
-    'Home',
+    // 'Home',
     'Weather',
-    'Calculator',
+    // 'Calculator',
   ];
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
+    // Home(),
     Weather(),
-    Calculator(),
+    // Calculator(),
   ];
 
   void _onItemTapped(int index) {
@@ -59,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // leading: const Icon(Icons.menu),
+        centerTitle: true,
         title: Text(
           _appbarTitle[_selectedIndex],
           style: const TextStyle(fontSize: 30),
@@ -87,29 +90,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: const DrawerItem(title: 'Weather'),
               selected: _selectedIndex == 0,
               onTap: () {
                 _onItemTapped(0);
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              title: const Text('Weather'),
-              selected: _selectedIndex == 1,
-              onTap: () {
-                _onItemTapped(1);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Calculator'),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                _onItemTapped(2);
-                Navigator.pop(context);
-              },
-            ),
+            // ListTile(
+            //   title: const Text('Home'),
+            //   selected: _selectedIndex == 0,
+            //   onTap: () {
+            //     _onItemTapped(0);
+            //     Navigator.pop(context);
+            //   },
+            // ),
+            // ListTile(
+            //   title: const Text('Calculator'),
+            //   selected: _selectedIndex == 2,
+            //   onTap: () {
+            //     _onItemTapped(2);
+            //     Navigator.pop(context);
+            //   },
+            // ),
           ],
         ),
       ),

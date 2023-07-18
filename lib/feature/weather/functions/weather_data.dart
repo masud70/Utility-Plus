@@ -28,12 +28,16 @@ class WeatherData extends ChangeNotifier {
   // Default temperature unit (Kelvin)
   String currentUnit = unitCelsius;
 
-  WeatherData({this.locationName = "Chittagong"});
+  WeatherData({this.locationName = ""});
 
-  Future<Map<String, dynamic>> fetchData(
-      {String location = "Chittagong"}) async {
-    final response =
-        await http.get(Uri.parse('$apiUrl?q=$location&appid=$apiKey'));
+  Future<Map<String, dynamic>> fetchData({String location = ''}) async {
+    Map<String, String> locationData =
+        await Util().getLocationCoordinates(locationName: location);
+
+    locationName = locationData['locationName']!;
+
+    final response = await http
+        .get(Uri.parse('$apiUrl?${locationData['url']}&appid=$apiKey'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -44,7 +48,7 @@ class WeatherData extends ChangeNotifier {
         unitKelvin,
         currentUnit,
       );
-      locationName = Util().toCamelCase(location);
+      locationName = Util().toCamelCase(locationName);
       description = data['weather'][0]['description'];
       iconCode = data['weather'][0]['icon'];
       humidity = data['main']['humidity'].toString();
