@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utility_plus/feature/weather/functions/weather_data.dart';
-import 'package:utility_plus/feature/weather/util/CustomSearchBar.dart';
+import 'package:utility_plus/feature/weather/util/custom_search_bar.dart';
+import 'package:utility_plus/feature/weather/util/humidity.dart';
+import 'package:utility_plus/feature/weather/util/sunrise.dart';
+import 'package:utility_plus/feature/weather/util/sunset.dart';
 import 'package:utility_plus/feature/weather/util/temperature.dart';
+import 'package:utility_plus/feature/weather/util/wind_speed.dart';
 import 'package:utility_plus/util/widgets/loader.dart';
 
 class Weather extends StatefulWidget {
@@ -29,40 +33,44 @@ class _WeatherState extends State<Weather> {
   Widget build(BuildContext context) {
     return Consumer<WeatherData>(
       builder: ((context, weather, _) {
-        print(weather.isLoading);
         if (weather.isLoading) {
           return const Loader();
         } else {
-          return Scaffold(
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomSearchBar(
-                      onChangeText: (text) {
-                        weather.onSearch(text);
-                      },
+          return FutureBuilder(
+            future: weatherFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Loader();
+              } else {
+                return Scaffold(
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomSearchBar(
+                            onChangeText: (text) {
+                              weather.onSearch(text);
+                            },
+                          ),
+                          const SizedBox(height: 16.0),
+                          const Temperature(),
+                          const SizedBox(height: 16.0),
+                          const Humidity(),
+                          const SizedBox(height: 16.0),
+                          const WindSpeed(),
+                          const SizedBox(height: 16.0),
+                          const Sunrise(),
+                          const SizedBox(height: 16.0),
+                          const Sunset(),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 16.0),
-                    FutureBuilder(
-                      future: weatherFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Loader();
-                        } else {
-                          return const Temperature();
-                        }
-                      },
-                    ),
-                    const Text('data'),
-                    const Text('data'),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                );
+              }
+            },
           );
         }
       }),

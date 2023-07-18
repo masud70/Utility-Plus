@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:utility_plus/feature/weather/functions/unit_converter.dart';
+import 'package:utility_plus/util/functions/util.dart';
 
 class WeatherData extends ChangeNotifier {
   String locationName;
@@ -14,6 +15,10 @@ class WeatherData extends ChangeNotifier {
   String? temperature;
   String? description;
   String? iconCode;
+  String? humidity;
+  String? windSpeed;
+  String? sunrise;
+  String? sunset;
 
   // Temperature unit options
   static const String unitCelsius = '\u00B0C';
@@ -27,10 +32,8 @@ class WeatherData extends ChangeNotifier {
 
   Future<Map<String, dynamic>> fetchData(
       {String location = "Chittagong"}) async {
-    locationName = location;
-
     final response =
-        await http.get(Uri.parse('$apiUrl?q=$locationName&appid=$apiKey'));
+        await http.get(Uri.parse('$apiUrl?q=$location&appid=$apiKey'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -41,8 +44,13 @@ class WeatherData extends ChangeNotifier {
         unitKelvin,
         currentUnit,
       );
+      locationName = Util().toCamelCase(location);
       description = data['weather'][0]['description'];
       iconCode = data['weather'][0]['icon'];
+      humidity = data['main']['humidity'].toString();
+      windSpeed = (data['wind']['speed'] * 3.6).toStringAsFixed(2);
+      sunrise = Util().formatUnixTimeToHourMinute(data['sys']['sunrise']);
+      sunset = Util().formatUnixTimeToHourMinute(data['sys']['sunset']);
       notifyListeners();
 
       // Return status as success and an empty error message

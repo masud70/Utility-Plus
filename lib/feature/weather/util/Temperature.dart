@@ -14,9 +14,6 @@ class _TemperatureState extends State<Temperature> {
   List<String> options = ['\u00B0C', '\u00B0F', 'K'];
   String? temperature;
 
-  // Method to handle unit change
-  void handleUnitChange(String? newValue) {}
-
   @override
   void initState() {
     super.initState();
@@ -33,7 +30,10 @@ class _TemperatureState extends State<Temperature> {
                 color: const Color.fromARGB(255, 226, 226, 226),
                 borderRadius: BorderRadius.circular(10.0),
                 gradient: const LinearGradient(
-                  colors: [Colors.white, Color.fromARGB(255, 147, 206, 255)],
+                  colors: [
+                    Color.fromARGB(255, 230, 250, 255),
+                    Color.fromARGB(255, 147, 200, 255)
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -83,7 +83,9 @@ class _TemperatureState extends State<Temperature> {
                               ),
                               DropdownButton<String>(
                                 value: selectedOption,
-                                onChanged: handleUnitChange,
+                                onChanged: (newUnit) {
+                                  weather.convertUnitTo("$newUnit");
+                                },
                                 items: options.map((String option) {
                                   return DropdownMenuItem<String>(
                                     value: option,
@@ -102,12 +104,24 @@ class _TemperatureState extends State<Temperature> {
                         ),
                       ],
                     ),
-                    Text(
-                      "${weather.description}",
-                      style: const TextStyle(
-                        fontSize: 17,
-                        color: Colors.grey,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          weather.locationName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "${weather.description}",
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
                     Image.network(
                       'http://openweathermap.org/img/wn/${weather.iconCode}.png',
