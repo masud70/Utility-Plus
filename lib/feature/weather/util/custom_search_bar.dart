@@ -16,7 +16,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
     return TextField(
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color.fromARGB(40, 0, 0, 0),
+          fillColor: const Color.fromARGB(40, 120, 197, 255),
           hintText: 'Search...',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
