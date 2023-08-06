@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:utility_plus/feature/bmi/screens/bmi.dart';
 import 'package:utility_plus/feature/calculator/screens/calculator.dart';
 import 'package:utility_plus/feature/home/screens/home.dart';
 import 'package:utility_plus/feature/weather/functions/weather_data.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static const appTitle = 'Home';
- 
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -41,13 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<String> _appbarTitle = <String>[
     // 'Home',
     'Weather',
-    // 'Calculator',
+    'BMI Calculator',
   ];
 
   static const List<Widget> _widgetOptions = <Widget>[
     // Home(),
     Weather(),
-    // Calculator(),
+    BMICalculator(),
   ];
 
   void _onItemTapped(int index) {
@@ -97,14 +98,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context);
               },
             ),
-            // ListTile(
-            //   title: const Text('Home'),
-            //   selected: _selectedIndex == 0,
-            //   onTap: () {
-            //     _onItemTapped(0);
-            //     Navigator.pop(context);
-            //   },
-            // ),
+            ListTile(
+              title: const DrawerItem(title: 'BMI Calculator'),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.pop(context);
+              },
+            ),
             // ListTile(
             //   title: const Text('Calculator'),
             //   selected: _selectedIndex == 2,
