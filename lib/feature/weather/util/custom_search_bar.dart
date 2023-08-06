@@ -9,31 +9,34 @@ class CustomSearchBar extends StatefulWidget {
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
-  String searchText = '';
-
   @override
   Widget build(BuildContext context) {
+    TextEditingController textEditingController = TextEditingController();
+
     return TextField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color.fromARGB(40, 120, 197, 255),
-          hintText: 'Search...',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          suffixIcon: IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              setState(() {
-                widget.onChangeText(searchText);
-              });
-            },
-          ),
+      controller: textEditingController,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color.fromARGB(40, 120, 197, 255),
+        hintText: 'Search...',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        onChanged: (text) {
-          setState(() {
-            searchText = text;
-          });
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              widget.onChangeText(textEditingController.text);
+            });
+          },
+        ),
+      ),
+      onEditingComplete: () {
+        setState(() {
+          widget.onChangeText(textEditingController.text);
         });
+      },
+    );
   }
 }

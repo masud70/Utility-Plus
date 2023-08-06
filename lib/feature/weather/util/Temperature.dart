@@ -82,8 +82,11 @@ class _TemperatureState extends State<Temperature> {
                                 ),
                               ),
                               DropdownButton<String>(
-                                value: selectedOption,
+                                value: weather.currentUnit,
                                 onChanged: (newUnit) {
+                                  setState(() {
+                                    selectedOption = newUnit!;
+                                  });
                                   weather.convertUnitTo("$newUnit");
                                 },
                                 items: options.map((String option) {
