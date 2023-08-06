@@ -15,6 +15,9 @@ class _SunsetState extends State<Sunset> {
     return Consumer<WeatherData>(
       builder: ((context, weather, child) => Container(
             width: double.infinity,
+            constraints: const BoxConstraints(
+              minHeight: 150,
+            ),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 226, 226, 226),
               borderRadius: BorderRadius.circular(10.0),
