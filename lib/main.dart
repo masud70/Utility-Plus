@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:utility_plus/feature/bmi/screens/bmi.dart';
-import 'package:utility_plus/feature/calculator/screens/calculator.dart';
-import 'package:utility_plus/feature/home/screens/home.dart';
+import 'package:utility_plus/feature/todo/screens/todo.dart';
 import 'package:utility_plus/feature/weather/functions/weather_data.dart';
 import 'package:utility_plus/feature/weather/screens/weather.dart';
 import 'package:utility_plus/util/widgets/drawer_item.dart';
@@ -43,12 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // 'Home',
     'Weather',
     'BMI Calculator',
+    'Todo'
   ];
 
   static const List<Widget> _widgetOptions = <Widget>[
     // Home(),
     Weather(),
     BMICalculator(),
+    Todo()
   ];
 
   void _onItemTapped(int index) {
@@ -106,14 +107,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context);
               },
             ),
-            // ListTile(
-            //   title: const Text('Calculator'),
-            //   selected: _selectedIndex == 2,
-            //   onTap: () {
-            //     _onItemTapped(2);
-            //     Navigator.pop(context);
-            //   },
-            // ),
+            ListTile(
+              title: const DrawerItem(title: 'Todo'),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                _onItemTapped(2);
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
